@@ -54,6 +54,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "mapping.h"
+#include "symbl_table.h"
 
 #define BLOCK 60
 
@@ -62,6 +63,9 @@ void store_char(int);
 char *buffer;
 int max = BLOCK;
 int char_count = 0;
+
+/* symbol table */
+struct entry *symbol_table = NULL;
 
 int main(void)
 {
@@ -77,6 +81,7 @@ int main(void)
 	/* null terminate string */
 	buffer[char_count] = '\0';
 
+	/* first pass - map memory values to symbols */
 
 	free(buffer);
 	exit(EXIT_SUCCESS);
