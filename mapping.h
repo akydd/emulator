@@ -18,8 +18,9 @@
  */
 
 /* opcodes for processor */
-#define INSTR_SET_SIZE 20
+#define OPCODE_SET_SIZE 20
 
+/* range is {49} U [96, 113] */
 #define LOAD_CODE 0x60
 #define LOADI_CODE 0x61
 #define STORE_CODE 0x62
@@ -39,28 +40,6 @@
 #define OUTI_CODE 0x70
 #define OUTIC_CODE 0x71
 #define HALT_CODE 0x31
-
-const int INSTR_CODE_TABLE[] = {
-	LOAD_CODE,
-	LOADI_CODE,
-	STORE_CODE,
-	STOREI_CODE,
-	JMP_CODE,
-	JMPZ_CODE,
-	JMPN_CODE,
-	JMPO_CODE,
-	ADD_CODE,
-	ADDR_CODE,
-	SUB_CODE,
-	SUBR_CODE,
-	OUT_CODE,
-	OUTC_CODE,
-	OUTR_CODE,
-	OUTRC_CODE,
-	OUTI_CODE,
-	OUTIC_CODE,
-	HALT_CODE
-};
 
 #define LOAD_STR "LOAD"
 #define LOADI_STR "LOADI"
@@ -82,29 +61,6 @@ const int INSTR_CODE_TABLE[] = {
 #define OUTIC_STR "OUTIC"
 #define HALT_STR "HALT"
 #define DATA_STR "DATA"
-
-const char *INSTR_STR_TABLE[] = {
-	LOAD_STR,
-	LOADI_STR,
-	STORE_STR,
-	STOREI_STR,
-	JMP_STR,
-	JMPZ_STR,
-	JMPN_STR,
-	JMPO_STR,
-	ADD_STR,
-	ADDR_STR,
-	SUB_STR,
-	SUBR_STR,
-	OUT_STR,
-	OUTC_STR,
-	OUTR_STR,
-	OUTRC_STR,
-	OUTI_STR,
-	OUTIC_STR,
-	HALT_STR,
-	DATA_STR
-};
 
 /* instruction bytesizes */
 #define LOAD_SIZE 4
@@ -128,28 +84,40 @@ const char *INSTR_STR_TABLE[] = {
 #define HALT_SIZE 2
 #define DATA_SIZE 2
 
-const int INSTR_SIZE_TABLE[] = {
-	LOAD_SIZE,
-	LOADI_SIZE,
-	STORE_SIZE,
-	STOREI_SIZE,
-	JMP_SIZE,
-	JMPZ_SIZE,
-	JMPN_SIZE,
-	JMPO_SIZE,
-	ADD_SIZE,
-	ADDR_SIZE,
-	SUB_SIZE,
-	SUBR_SIZE,
-	OUT_SIZE,
-	OUTC_SIZE,
-	OUTR_SIZE,
-	OUTRC_SIZE,
-	OUTI_SIZE,
-	OUTIC_SIZE,
-	HALT_SIZE,
-	DATA_SIZE
+struct opcode_entry {
+	int code;
+	char *token;
+	int size;
 };
+
+typedef opcode_table struct opcode_entry[];
+
+opcode_table opcode_lookup_table = {
+	{LOAD_CODE, LOAD_STR, LOAD_SIZE},
+	{LOADI_CODE, LOADI_STR, LOADI_SIZE},
+	{STORE_CODE, STORE_STR, STORE_SIZE},
+	{STOREI_CODE, STOREI_STR, STOREI_SIZE},
+	{JMP_CODE, JMP_STR, JMP_SIZE},
+	{JMPZ_CODE, JMPZ_STR, JMPZ_SIZE},
+	{JMPN_CODE, JMPN_STR, JMPN_SIZE},
+	{JMPO_CODE, JMPO_STR, JMPO_SIZE},
+	{ADD_CODE, ADD_STR, ADD_SIZE},
+	{ADDR_CODE, ADDR_STR, ADDR_SIZE},
+	{SUB_CODE, SUB_STR, SUB_SIZE},
+	{SUBR_CODE, SUBR_STR, SUBR_SIZE},
+	{OUT_CODE, OUT_STR, OUT_SIZE},
+	{OUTC_CODE, OUTC_STR, OUTC_SIZE},
+	{OUTR_CODE, OUTR_STR, OUTR_SIZE},
+	{OUTRC_CODE, OUTRC_STR, OUTRC_SIZE},
+	{OUTI_CODE, OUTI_STR, OUTI_SIZE},
+	{OUTIC_CODE, OUTIC_STR, OUTIC_SIZE},
+	{HALT_CODE, HALT_STR, HALT_SIZE},
+	{-1, DATA_STR, DATA_SIZE}
+};
+
+int op_size(char *);
+int op_code(char *);
+char *op_token(int);
 
 /* Registers for processor */
 #define REG_SET_SIZE 4
@@ -159,21 +127,26 @@ const int INSTR_SIZE_TABLE[] = {
 #define R1_CODE 1
 #define R2_CODE 0
 
-const int REG_CODE_TABLE[] = {
-	A1_CODE,
-	A2_CODE,
-	R1_CODE,
-	R2_CODE
-};
-
-#define A1_STR "A!"
+#define A1_STR "A1"
 #define A2_STR "A2"
 #define R1_STR "R1"
 #define R2_STR "R2"
 
-const char *REG_STR_TABLE[] = {
-	A1_STR,
-	A2_STR,
-	R1_STR,
-	R2_STR
+struct reg_entry {
+	int code;
+	char *token;
 };
+
+typedef reg_table struct reg_entry[];
+
+reg_table reg_lookup_table = {
+	{A1_CODE, A1_STR},
+	{A2_CODE, A2_STR},
+	{R1_CODE, R1_STR},
+	{R2_CODE, R2_STR}
+};
+
+/*
+int reg_code(char *);
+char *reg_token(int);
+*/
