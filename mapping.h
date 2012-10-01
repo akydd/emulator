@@ -90,9 +90,7 @@ struct opcode_entry {
 	int size;
 };
 
-typedef opcode_table struct opcode_entry[];
-
-opcode_table opcode_lookup_table = {
+struct opcode_entry opcode_table[] = {
 	{LOAD_CODE, LOAD_STR, LOAD_SIZE},
 	{LOADI_CODE, LOADI_STR, LOADI_SIZE},
 	{STORE_CODE, STORE_STR, STORE_SIZE},
@@ -137,9 +135,7 @@ struct reg_entry {
 	char *token;
 };
 
-typedef reg_table struct reg_entry[];
-
-reg_table reg_lookup_table = {
+struct reg_entry reg_table[] = {
 	{A1_CODE, A1_STR},
 	{A2_CODE, A2_STR},
 	{R1_CODE, R1_STR},

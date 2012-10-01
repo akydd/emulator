@@ -25,8 +25,8 @@ int op_size(char *token)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(strcmp(opcode_lookup_table[i].token, token) == 0) {
-			return opcode_lookup_table[i].size;
+		if(strcmp(opcode_table[i].token, token) == 0) {
+			return opcode_table[i].size;
 		}
 	}
 	return -1;
@@ -36,8 +36,8 @@ int op_code(char *token)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(strcmp(opcode_lookup_table[i].token, token) == 0) {
-			return opcode_lookup_table[i].code;
+		if(strcmp(opcode_table[i].token, token) == 0) {
+			return opcode_table[i].code;
 		}
 	}
 	return -1;
@@ -47,8 +47,8 @@ char *op_token(int code)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(opcode_lokup_table[i].code == code) {
-			return opcode_lookup_table[i].token;
+		if(opcode_table[i].code == code) {
+			return opcode_table[i].token;
 		}
 	}
 	return NULL;

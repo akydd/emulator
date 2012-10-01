@@ -53,8 +53,9 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "mapping.h"
-#include "symbl_table.h"
+#include "symbol_table.h"
 
 #define BLOCK 60
 
@@ -81,9 +82,20 @@ int main(void)
 	/* null terminate string */
 	buffer[char_count] = '\0';
 
+	char *token = malloc(sizeof(char) * (strlen(buffer) + 1));
+	char *result = NULL;
+	(void)strcpy(token, buffer);
+	result = strtok(token, "\n");
+	while(result != NULL) {
+		(void)printf("result is: %s\n", result);
+		result = strtok(NULL, "\n");
+	}
+
+
 	/* first pass - map memory values to symbols */
 
 	free(buffer);
+	free(token);
 	exit(EXIT_SUCCESS);
 }
 
@@ -94,5 +106,5 @@ void store_char(int char_in)
 		max += BLOCK;
 		buffer = realloc(buffer, max);
 	}
-	buffer[char_count - 1] = char_in;
+	buffer[char_count - 1] = (char)char_in;
 }
