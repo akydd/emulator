@@ -18,11 +18,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parsed_line.h"
-#include "mapping.h"
 
-void add(char *inst, char *op1, char *op2)
+void add(char *inst, char *op1, char *op2, int size)
 {
-	struct parsed_line *new_line = create_new(instr, op1, op2);
+	struct parsed_line *new_line = create_new(instr, op1, op2, size);
 
 	/* add node to END of list */
 	if(parsed_line == NULL) {
@@ -36,7 +35,7 @@ void add(char *inst, char *op1, char *op2)
 	}
 }
 
-struct parsed_line *create_new(char *instr, char *op1, char *op2)
+struct parsed_line *create_new(char *instr, char *op1, char *op2, int size)
 {
 	/*  get mem for struct */
 	struct parsed_line *new_line = malloc(sizeof(struct parsed_line));
@@ -57,7 +56,37 @@ struct parsed_line *create_new(char *instr, char *op1, char *op2)
 	}
 
 	new_line->size = malloc(sizeof(int));
-	new_line->size = instruction_size(inst);
+	new_line->size = size;
 
 	return new_line;
+}
+
+void parse_and_add(char *string)
+{
+	char *instr = string[8];
+	char *search_ptr = instr;
+	while(isalpha(*search_ptr) != 0) {
+		search_ptr++;
+	}
+	*search_ptr = '\0';
+	(void)printf("Instruction is: %s\n", instr);
+
+}
+
+void delete_parsed_lines()
+{
+	struct parsed_line *search_ptr = parsed_lines;
+	struct parsed_line *next_ptr;
+	while(search_ptr != NULL) {
+		next_ptr = search_ptr->next;
+		free(search_ptr->instruction);
+		if (search_ptr->op1 != NULL) {
+			free(search_ptr->op1);
+		}
+		if(search_ptr->op2 != NULL) {
+			free(search_ptr->op2);
+		}
+		free(search_ptr->size);
+		search_ptr = next_ptr;
+	}
 }

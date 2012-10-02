@@ -6,3 +6,6 @@ sasm: $(OBJS)
 	$(CC) $(CFLAGS) -o sasm $(OBJS)
 
 sasm.o:sasm.c mapping.h
+
+clean:
+	rm -f $(OBJS)

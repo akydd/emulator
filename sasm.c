@@ -56,6 +56,7 @@
 #include <string.h>
 #include "mapping.h"
 #include "symbol_table.h"
+#include "parsed_line.h"
 
 #define BLOCK 60
 
@@ -67,6 +68,9 @@ int char_count = 0;
 
 /* symbol table */
 struct entry *symbol_table = NULL;
+
+/* data struct to hold parsed file */
+struct parsed_line *parsed_lines = NULL;
 
 int main(void)
 {
@@ -82,20 +86,27 @@ int main(void)
 	/* null terminate string */
 	buffer[char_count] = '\0';
 
-	char *token = malloc(sizeof(char) * (strlen(buffer) + 1));
-	char *result = NULL;
-	(void)strcpy(token, buffer);
-	result = strtok(token, "\n");
-	while(result != NULL) {
-		(void)printf("result is: %s\n", result);
-		result = strtok(NULL, "\n");
+	/* copy buffer contents for tokenizing */
+	char *buf_cpy = malloc(sizeof(char) * (strlen(buffer) + 1));
+	(void)strcpy(buf_cpy, buffer);
+
+	/* tokenize buffer by newlines */
+	char *line = NULL;
+	line = strtok(buf_cpy, "\n");
+	while(line != NULL) {
+		(void)printf("Line is: %s\n", line);
+
+		parse_and_add(line);
+
+		/* get next token */
+		line = strtok(NULL, "\n");
 	}
 
 
 	/* first pass - map memory values to symbols */
 
 	free(buffer);
-	free(token);
+	free(buf_cpy);
 	exit(EXIT_SUCCESS);
 }
 
