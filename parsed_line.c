@@ -19,19 +19,17 @@
 #include <string.h>
 #include "parsed_line.h"
 
-void add(char *inst, char *op1, char *op2, int size)
+void add_parsed_line(struct parsed_line *instr)
 {
-	struct parsed_line *new_line = create_new(instr, op1, op2, size);
-
 	/* add node to END of list */
 	if(parsed_line == NULL) {
-		parsed_lines = new_line;
+		parsed_lines = instr;
 	} else {
 		struct parsed_line *search_ptr = parsed_lines;
 		while(search_ptr->next != NULL) {
 			search_ptr = search_ptr->next;
 		}
-		search_ptr->next = new_line;
+		search_ptr->next = instr;
 	}
 }
 
@@ -61,16 +59,15 @@ struct parsed_line *create_new(char *instr, char *op1, char *op2, int size)
 	return new_line;
 }
 
-void parse_and_add(char *string)
-{
-	char *instr = string[8];
-	char *search_ptr = instr;
-	while(isalpha(*search_ptr) != 0) {
-		search_ptr++;
-	}
-	*search_ptr = '\0';
-	(void)printf("Instruction is: %s\n", instr);
+struct parsed_line *parse_line(char *line) {
+	char *instr;
+	char *op1;
+	char *op2;
+	int size;
 
+	/* parse line to get each field */
+
+	return create_new(instr, op1, op2, size);
 }
 
 void delete_parsed_lines()

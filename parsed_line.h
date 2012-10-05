@@ -26,6 +26,8 @@ struct parsed_line {
 
 extern struct parsed_line *parsed_lines;
 
-void parse_and_add(char *);
+struct parsed_line *parse_line(char *);
+
+void add_parsed_line(struct parsed_line *);
 
 void delete_parsed_lines();

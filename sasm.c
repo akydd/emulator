@@ -90,13 +90,23 @@ int main(void)
 	char *buf_cpy = malloc(sizeof(char) * (strlen(buffer) + 1));
 	(void)strcpy(buf_cpy, buffer);
 
+	/* track the memory address while parsing instructions */
+	int address = 0;
+	struct parsed_line *instr = NULL;
+
 	/* tokenize buffer by newlines */
 	char *line = NULL;
 	line = strtok(buf_cpy, "\n");
 	while(line != NULL) {
 		(void)printf("Line is: %s\n", line);
+		instr = parse_line(line);
+		add_parsed_line(instr);
 
-		parse_and_add(line);
+		/* store label in symbol table, if needed */
+		/* TODO */
+
+		/* increment address */
+		address += instr->size;
 
 		/* get next token */
 		line = strtok(NULL, "\n");
