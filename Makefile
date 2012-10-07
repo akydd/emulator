@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -ansi
+CFLAGS=-Wall -ansi -ggdb
 OBJS=sasm.o symbol_table.o parsed_line.o
 
 sasm: $(OBJS)

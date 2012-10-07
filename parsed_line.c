@@ -42,6 +42,7 @@ struct parsed_line *parse_line(char *line) {
 
 	/* get mem for struct */
 	struct parsed_line *new_line = malloc(sizeof(struct parsed_line));
+	new_line->next = NULL;
 
 	/* label */
 	new_line->label = NULL;
@@ -51,7 +52,7 @@ struct parsed_line *parse_line(char *line) {
 		/* set label */
 		new_line->label = malloc(sizeof(char) * (offset + 1));
 		(void)strncpy(new_line->label, search_ptr, offset);
-		*(new_line->label+offset+1) = '\0';
+		new_line->label[offset] = '\0';
 	}
 
 	/* instruction */
@@ -65,7 +66,7 @@ struct parsed_line *parse_line(char *line) {
 	/* set instr */
 	new_line->instruction = malloc(sizeof(char) * (offset + 1));
 	(void)strncpy(new_line->instruction, search_ptr, offset);
-	*(new_line->instruction+offset+1) = '\0';
+	new_line->instruction[offset] = '\0';
 
 	/* set size */
 	/* TODO call fn to get size */
@@ -89,7 +90,7 @@ struct parsed_line *parse_line(char *line) {
 		/* set op1 */
 		new_line->op1 = malloc(sizeof(char) * (offset + 1));
 		(void)strncpy(new_line->op1, search_ptr, offset);
-		*(new_line->op1+offset+1) = '\0';
+		new_line->op1[offset] = '\0';
 	}
 
 	/* skip single blank spaces (we need to halt on '\0') */
@@ -114,7 +115,7 @@ struct parsed_line *parse_line(char *line) {
 		/* save op2 */
 		new_line->op2 = malloc(sizeof(char) * (offset + 1));
 		(void)strncpy(new_line->op2, search_ptr, offset);
-		*(new_line->op2+offset+1) = '\0';
+		new_line->op2[offset] = '\0';
 	}
 
 	return new_line; 
@@ -136,6 +137,7 @@ void delete_parsed_lines()
 		if(search_ptr->op2 != NULL) {
 			free(search_ptr->op2);
 		}
+		free(search_ptr);
 		search_ptr = next_ptr;
 	}
 }
