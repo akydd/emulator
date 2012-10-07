@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -ansi -ggdb
-OBJS=sasm.o symbol_table.o parsed_line.o
+OBJS=sasm.o symbol_table.o parsed_line.o mapping.o
 
 sasm: $(OBJS)
 	$(CC) $(CFLAGS) -o sasm $(OBJS)
@@ -11,6 +11,7 @@ symbol_table.o:symbol_table.c symbol_table.h
 
 parsed_line.o:parsed_line.c parsed_line.h
 
+mapping.o:mapping.c mapping.h
 
 # test bins
 

@@ -54,9 +54,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "mapping.h"
-#include "symbol_table.h"
-#include "parsed_line.h"
+#include "mapping.h"		/* map language tokens to opcodes */
+#include "symbol_table.h"	/* symbol memory map */
+#include "parsed_line.h"	/* adt for parsing input file */
 
 #define BLOCK 60
 
@@ -98,7 +98,7 @@ int main(void)
 	char *line = NULL;
 	line = strtok(buf_cpy, "\n");
 	while(line != NULL) {
-		(void)printf("Line is: %s\n", line);
+		/* (void)printf("Line is: %s\n", line); */
 		instr = parse_line(line);
 		add_parsed_line(instr);
 
@@ -108,14 +108,60 @@ int main(void)
 		}
 
 		/* set address start for next instr */
-		address += instr->size;
+		address += op_size(instr->instruction);
 
 		/* get next token */
 		line = strtok(NULL, "\n");
 	}
 
+	/* second pass - translate to binary */
+	instr = parsed_lines;
+	while(instr->next != NULL) {
+		int code = 0;
+		int scan = 0;
+		/* instruction */
+		if(strcmp(instr->instruction, DATA_STR) == 0) {
+			scan = sscanf(instr->op1, "%d", &code);
+			if(scan != 1) {
+				code = find_value(instr->op1);
+			}
+			(void)putchar(code);
+			continue;
+		} else {
+			code = op_code(instr->instruction);
+		}
+		(void)putchar(code);
+
+		/* op1 */
+		if(instr->op1 != NULL) {
+			code = reg_code(instr->op1);
+			if (code < 0) {
+				scan = sscanf(instr->op1, "%d", &code);
+				if(scan != 1) {
+					code = find_value(instr->op1);
+				}
+			}
+			(void)putchar(code);
+		}
+
+		/* op2 */
+		if(instr->op2 != NULL) {
+			code = reg_code(instr->op2);
+			if(code < 0) {
+				scan = sscanf(instr->op2, "%d", &code);
+				if(scan != 1) {
+					code = find_value(instr->op2);
+				}
+			}
+			(void)putchar(code);
+		}
+		instr = instr->next;
+	}
+
 	free(buffer);
 	free(buf_cpy);
+	delete_parsed_lines();
+	delete_symbol_table();
 	exit(EXIT_SUCCESS);
 }
 

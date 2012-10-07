@@ -54,4 +54,24 @@ char *op_token(int code)
 	return NULL;
 }
 
+int reg_code(char *token)
+{
+	int i;
+	for(i = 0; i < REG_SET_SIZE; i++) {
+		if(strcmp(reg_table[i].token, token) == 0) {
+			return reg_table[i].code;
+		}
+	}
+	return -1;
+}
 
+char *reg_token(int code)
+{
+	int i;
+	for(i = 0; i < REG_SET_SIZE; i++) {
+		if(reg_table[i].code == code) {
+			return reg_table[i].token;
+		}
+	}
+	return NULL;
+}

@@ -90,7 +90,7 @@ struct opcode_entry {
 	int size;
 };
 
-struct opcode_entry opcode_table[] = {
+static const struct opcode_entry opcode_table[] = {
 	{LOAD_CODE, LOAD_STR, LOAD_SIZE},
 	{LOADI_CODE, LOADI_STR, LOADI_SIZE},
 	{STORE_CODE, STORE_STR, STORE_SIZE},
@@ -135,14 +135,12 @@ struct reg_entry {
 	char *token;
 };
 
-struct reg_entry reg_table[] = {
+static const struct reg_entry reg_table[] = {
 	{A1_CODE, A1_STR},
 	{A2_CODE, A2_STR},
 	{R1_CODE, R1_STR},
 	{R2_CODE, R2_STR}
 };
 
-/*
 int reg_code(char *);
 char *reg_token(int);
-*/

@@ -23,8 +23,8 @@ void add_symbol(char *key, int value)
 {
 	/* allocated mem */
 	struct entry *new_entry = malloc(sizeof(struct entry));
-	new_entry->key = malloc(sizeof(char) * strlen(key) + 1);
-	new_entry->value = malloc(sizeof(int));
+	new_entry->next = NULL;
+	new_entry->key = malloc(sizeof(char) * (strlen(key) + 1));
 
 	/* copy in key & value */
 	(void)strcpy(new_entry->key, key);
@@ -59,7 +59,6 @@ void delete_symbol_table()
 	while(search_ptr != NULL) {
 		next_ptr = search_ptr->next;
 		free(search_ptr->key);
-		free(search_ptr->value);
 		free(search_ptr);
 		search_ptr = next_ptr;
 	}
