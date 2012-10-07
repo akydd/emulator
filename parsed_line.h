@@ -32,3 +32,5 @@ struct parsed_line *parse_line(char *);
 void add_parsed_line(struct parsed_line *);
 
 void delete_parsed_lines();
+
+void print_parsed_line(struct parsed_line *);
