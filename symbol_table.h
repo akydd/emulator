@@ -29,7 +29,7 @@ extern struct entry *symbol_table;
  * Add a new key-value pair to the head of the symbol table.
  * null chars are included in the data!
  */
-void add(char *, int);
+void add_symbol(char *, int);
 
 /*
  * Return the value for the key

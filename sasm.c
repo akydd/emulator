@@ -103,17 +103,16 @@ int main(void)
 		add_parsed_line(instr);
 
 		/* store label in symbol table, if needed */
-		/* TODO */
+		if(instr->label != NULL) {
+			add_symbol(instr->label, address);
+		}
 
-		/* increment address */
+		/* set address start for next instr */
 		address += instr->size;
 
 		/* get next token */
 		line = strtok(NULL, "\n");
 	}
-
-
-	/* first pass - map memory values to symbols */
 
 	free(buffer);
 	free(buf_cpy);

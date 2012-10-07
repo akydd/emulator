@@ -17,6 +17,7 @@
  */
 
 struct parsed_line {
+	char *label;
 	char *instruction;
 	char *op1;
 	char *op2;

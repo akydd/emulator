@@ -1,5 +1,5 @@
 /*
- * =============================================================================
+ * ============================================================================
  *
  *       Filename:  symbol_table.c
  *
@@ -13,20 +13,21 @@
  *         Author:  Alan Kydd (), akydd@ualberta.net
  *   Organization:  
  *
- * =============================================================================
+ * ============================================================================
  */
 #include <stdlib.h>
 #include <string.h>
+#include "symbol_table.h"
 
-void add(char *key, int value)
+void add_symbol(char *key, int value)
 {
 	/* allocated mem */
-	struct new_entry = malloc(sizeof(struct entry));
+	struct entry *new_entry = malloc(sizeof(struct entry));
 	new_entry->key = malloc(sizeof(char) * strlen(key) + 1);
 	new_entry->value = malloc(sizeof(int));
 
 	/* copy in key & value */
-	(void)strncpy(new_entry->key, key);
+	(void)strcpy(new_entry->key, key);
 	new_entry->value = value;
 
 	/* add new entry to head of table */
