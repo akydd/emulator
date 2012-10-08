@@ -108,7 +108,7 @@ int main(void)
 		}
 
 		/* set address start for next instr */
-		address += op_size(instr->instruction);
+		address += instr_size(instr->instruction);
 
 		/* get next token */
 		line = strtok(NULL, "\n");
@@ -118,42 +118,31 @@ int main(void)
 	instr = parsed_lines;
 	while(instr->next != NULL) {
 		int code = 0;
-		int scan = 0;
-		/* instruction */
+
+		/* data */
 		if(strcmp(instr->instruction, DATA_STR) == 0) {
-			scan = sscanf(instr->op1, "%d", &code);
-			if(scan != 1) {
-				code = find_value(instr->op1);
-			}
-			(void)putchar(code);
-			continue;
+			(void)putchar(op_to_const(instr->op1));
 		} else {
-			code = op_code(instr->instruction);
-		}
-		(void)putchar(code);
+			/*instruction */
+			(void)putchar(instr_code(instr->instruction));
 
-		/* op1 */
-		if(instr->op1 != NULL) {
-			code = reg_code(instr->op1);
-			if (code < 0) {
-				scan = sscanf(instr->op1, "%d", &code);
-				if(scan != 1) {
-					code = find_value(instr->op1);
+			/* op1 */
+			if(instr->op1 != NULL) {
+				code = op_to_code(instr->op1);
+				if (code < 0) {
+					code = op_to_const(instr->op1);
 				}
+				(void)putchar(code);
 			}
-			(void)putchar(code);
-		}
 
-		/* op2 */
-		if(instr->op2 != NULL) {
-			code = reg_code(instr->op2);
-			if(code < 0) {
-				scan = sscanf(instr->op2, "%d", &code);
-				if(scan != 1) {
-					code = find_value(instr->op2);
+			/* op2 */
+			if(instr->op2 != NULL) {
+				code = op_to_code(instr->op2);
+				if(code < 0) {
+					code = op_to_const(instr->op2);
 				}
+				(void)putchar(code);
 			}
-			(void)putchar(code);
 		}
 		instr = instr->next;
 	}

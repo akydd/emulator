@@ -17,60 +17,74 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
-
+#include <stdio.h>
+#include "symbol_table.h"
 #include "mapping.h"
 
-int op_size(char *token)
+int instr_size(char *token)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(strcmp(opcode_table[i].token, token) == 0) {
-			return opcode_table[i].size;
+		if(strcmp(instr_table[i].token, token) == 0) {
+			return instr_table[i].size;
 		}
 	}
 	return -1;
 }
 
-int op_code(char *token)
+int instr_code(char *token)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(strcmp(opcode_table[i].token, token) == 0) {
-			return opcode_table[i].code;
+		if(strcmp(instr_table[i].token, token) == 0) {
+			return instr_table[i].code;
 		}
 	}
 	return -1;
 }
 
-char *op_token(int code)
+char *instr_token(int code)
 {
 	int i;
 	for(i = 0; i < OPCODE_SET_SIZE; i++) {
-		if(opcode_table[i].code == code) {
-			return opcode_table[i].token;
+		if(instr_table[i].code == code) {
+			return instr_table[i].token;
 		}
 	}
 	return NULL;
 }
 
-int reg_code(char *token)
+int op_to_code(char *token)
 {
 	int i;
 	for(i = 0; i < REG_SET_SIZE; i++) {
-		if(strcmp(reg_table[i].token, token) == 0) {
-			return reg_table[i].code;
+		if(strcmp(op_table[i].token, token) == 0) {
+			return op_table[i].code;
 		}
 	}
 	return -1;
 }
 
-char *reg_token(int code)
+int op_to_const(char *token)
+{
+	int code;
+	int scan;
+
+	/* First, try to convert to an int.
+	 * Failing that, look for matching symbol. */
+	if((scan = sscanf(token, "%d", &code)) != 1) {
+		return find_value(token);
+	} else {
+		return code;
+	}
+}
+
+char *op_token(int code)
 {
 	int i;
 	for(i = 0; i < REG_SET_SIZE; i++) {
-		if(reg_table[i].code == code) {
-			return reg_table[i].token;
+		if(op_table[i].code == code) {
+			return op_table[i].token;
 		}
 	}
 	return NULL;

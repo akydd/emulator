@@ -84,13 +84,13 @@
 #define HALT_SIZE 2
 #define DATA_SIZE 2
 
-struct opcode_entry {
+struct instr_entry {
 	int code;
 	char *token;
 	int size;
 };
 
-static const struct opcode_entry opcode_table[] = {
+static const struct instr_entry instr_table[] = {
 	{LOAD_CODE, LOAD_STR, LOAD_SIZE},
 	{LOADI_CODE, LOADI_STR, LOADI_SIZE},
 	{STORE_CODE, STORE_STR, STORE_SIZE},
@@ -113,9 +113,9 @@ static const struct opcode_entry opcode_table[] = {
 	{-1, DATA_STR, DATA_SIZE}
 };
 
-int op_size(char *);
-int op_code(char *);
-char *op_token(int);
+int instr_size(char *);
+int instr_code(char *);
+char *instr_token(int);
 
 /* Registers for processor */
 #define REG_SET_SIZE 4
@@ -130,17 +130,18 @@ char *op_token(int);
 #define R1_STR "R1"
 #define R2_STR "R2"
 
-struct reg_entry {
+struct op_entry {
 	int code;
 	char *token;
 };
 
-static const struct reg_entry reg_table[] = {
+static const struct op_entry op_table[] = {
 	{A1_CODE, A1_STR},
 	{A2_CODE, A2_STR},
 	{R1_CODE, R1_STR},
 	{R2_CODE, R2_STR}
 };
 
-int reg_code(char *);
-char *reg_token(int);
+int op_to_code(char *);
+int op_to_const(char *);
+char *op_token(int);
