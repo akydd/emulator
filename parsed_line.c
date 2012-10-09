@@ -68,10 +68,6 @@ struct parsed_line *parse_line(char *line) {
 	(void)strncpy(new_line->instruction, search_ptr, offset);
 	new_line->instruction[offset] = '\0';
 
-	/* set size */
-	/* TODO call fn to get size */
-	new_line->size = 4;
-
 	/* skip single blank spaces (we need to halt on '\0') */
 	search_ptr = end_ptr;
 	while(*search_ptr == ' ') {
@@ -148,6 +144,5 @@ void print_parsed_line(struct parsed_line *line)
 	(void)printf("Instr: %s\n", line->instruction);
 	(void)printf("Op1: %s\n", line->op1);
 	(void)printf("Op2: %s\n", line->op2);
-	(void)printf("Size: %d\n", line->size);
 	(void)printf("\n");
 }

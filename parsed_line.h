@@ -21,7 +21,6 @@ struct parsed_line {
 	char *instruction;
 	char *op1;
 	char *op2;
-	int size;
 	struct parsed_line *next;
 };
 

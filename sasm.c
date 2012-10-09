@@ -123,23 +123,27 @@ int main(void)
 		if(strcmp(instr->instruction, DATA_STR) == 0) {
 			(void)putchar(op_to_const(instr->op1));
 		} else {
-			/*instruction */
+			/* instruction */
 			(void)putchar(instr_code(instr->instruction));
 
 			/* op1 */
 			if(instr->op1 != NULL) {
-				code = op_to_code(instr->op1);
-				if (code < 0) {
-					code = op_to_const(instr->op1);
+				if(op1_labelled(instr->instruction) == 1) {
+					/* try symbol table */
+					/* try as constant */
+				} else {
+					code = op_to_code(instr->op1);
 				}
 				(void)putchar(code);
 			}
 
 			/* op2 */
 			if(instr->op2 != NULL) {
-				code = op_to_code(instr->op2);
-				if(code < 0) {
-					code = op_to_const(instr->op2);
+				if(op2_tabelled(instr->instruction) == 1) {
+					/* try constant */
+					/* try symbol table */
+				} else {
+					code = op_to_code(instr->op2);
 				}
 				(void)putchar(code);
 			}

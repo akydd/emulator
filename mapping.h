@@ -84,38 +84,43 @@
 #define HALT_SIZE 2
 #define DATA_SIZE 2
 
+/* structure encapsulated info about each instruction */
 struct instr_entry {
-	int code;
-	char *token;
-	int size;
+	int code;	/* opcode */
+	char *token;	/* string representation */
+	int size;	/* total byte size */
+	int op1_is_const;	/* 1 if op1 takes a constant value */
+	int op2_is_const;	/* 1 if op2 takes a constant value */
 };
 
 static const struct instr_entry instr_table[] = {
-	{LOAD_CODE, LOAD_STR, LOAD_SIZE},
-	{LOADI_CODE, LOADI_STR, LOADI_SIZE},
-	{STORE_CODE, STORE_STR, STORE_SIZE},
-	{STOREI_CODE, STOREI_STR, STOREI_SIZE},
-	{JMP_CODE, JMP_STR, JMP_SIZE},
-	{JMPZ_CODE, JMPZ_STR, JMPZ_SIZE},
-	{JMPN_CODE, JMPN_STR, JMPN_SIZE},
-	{JMPO_CODE, JMPO_STR, JMPO_SIZE},
-	{ADD_CODE, ADD_STR, ADD_SIZE},
-	{ADDR_CODE, ADDR_STR, ADDR_SIZE},
-	{SUB_CODE, SUB_STR, SUB_SIZE},
-	{SUBR_CODE, SUBR_STR, SUBR_SIZE},
-	{OUT_CODE, OUT_STR, OUT_SIZE},
-	{OUTC_CODE, OUTC_STR, OUTC_SIZE},
-	{OUTR_CODE, OUTR_STR, OUTR_SIZE},
-	{OUTRC_CODE, OUTRC_STR, OUTRC_SIZE},
-	{OUTI_CODE, OUTI_STR, OUTI_SIZE},
-	{OUTIC_CODE, OUTIC_STR, OUTIC_SIZE},
-	{HALT_CODE, HALT_STR, HALT_SIZE},
-	{-1, DATA_STR, DATA_SIZE}
+	{LOAD_CODE, LOAD_STR, LOAD_SIZE, 0, 1},
+	{LOADI_CODE, LOADI_STR, LOADI_SIZE, 0, 0},
+	{STORE_CODE, STORE_STR, STORE_SIZE, 0, 1},
+	{STOREI_CODE, STOREI_STR, STOREI_SIZE, 0, 0},
+	{JMP_CODE, JMP_STR, JMP_SIZE, 1, 0},
+	{JMPZ_CODE, JMPZ_STR, JMPZ_SIZE, 1, 0},
+	{JMPN_CODE, JMPN_STR, JMPN_SIZE, 1, 0},
+	{JMPO_CODE, JMPO_STR, JMPO_SIZE, 1, 0},
+	{ADD_CODE, ADD_STR, ADD_SIZE, 0, 1},
+	{ADDR_CODE, ADDR_STR, ADDR_SIZE, 0, 0},
+	{SUB_CODE, SUB_STR, SUB_SIZE, 0, 1},
+	{SUBR_CODE, SUBR_STR, SUBR_SIZE, 0, 0},
+	{OUT_CODE, OUT_STR, OUT_SIZE, 1, 0},
+	{OUTC_CODE, OUTC_STR, OUTC_SIZE, 1, 0},
+	{OUTR_CODE, OUTR_STR, OUTR_SIZE, 0, 0},
+	{OUTRC_CODE, OUTRC_STR, OUTRC_SIZE, 0, 0},
+	{OUTI_CODE, OUTI_STR, OUTI_SIZE, 0, 0},
+	{OUTIC_CODE, OUTIC_STR, OUTIC_SIZE, 0, 0},
+	{HALT_CODE, HALT_STR, HALT_SIZE, 0, 0},
+	{-1, DATA_STR, DATA_SIZE, 1, 0}
 };
 
 int instr_size(char *);
 int instr_code(char *);
 char *instr_token(int);
+int op1_labelled(char *);
+int op2_labelled(char *);
 
 /* Registers for processor */
 #define REG_SET_SIZE 4

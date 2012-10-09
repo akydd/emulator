@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "symbol_table.h"
 #include "mapping.h"
 
 int instr_size(char *token)
@@ -54,6 +53,28 @@ char *instr_token(int code)
 	return NULL;
 }
 
+int op1_labelled(char *token)
+{
+	int i;
+	for(i = 0; i < OPCODE_SET_SIZE; i++) {
+		if(strcmp(instr_table[i].token, token) == 0) {
+			return instr_table[i].op1_is_const;
+		}
+	}
+	return -1
+}
+
+int op2_labelled(char *token)
+{
+	int i;
+	for(i = 0; i < OPCODE_SET_SIZE; i++) {
+		if(strcmp(instr_table[i].token, token) == 0) {
+			return instr_table[i].op2_is_const;
+		}
+	}
+	return -1
+}
+
 int op_to_code(char *token)
 {
 	int i;
@@ -68,15 +89,8 @@ int op_to_code(char *token)
 int op_to_const(char *token)
 {
 	int code;
-	int scan;
-
-	/* First, try to convert to an int.
-	 * Failing that, look for matching symbol. */
-	if((scan = sscanf(token, "%d", &code)) != 1) {
-		return find_value(token);
-	} else {
-		return code;
-	}
+	(void)sscanf(token, "%d", &code);
+	return code;
 }
 
 char *op_token(int code)
