@@ -62,6 +62,11 @@
 
 void store_char(int);
 
+void print_reg(char *);
+void print_two_reg(char *, char *);
+void print_reg_and_const(char *, char *);
+void print_const(char *);
+
 char *buffer;
 int max = BLOCK;
 int char_count = 0;
@@ -121,31 +126,30 @@ int main(void)
 
 		/* data */
 		if(strcmp(instr->instruction, DATA_STR) == 0) {
-			(void)putchar(op_to_const(instr->op1));
+			print_const(instr->op1);
 		} else {
 			/* instruction */
-			(void)putchar(instr_code(instr->instruction));
+			code = instr_code(instr->instruction);
+			(void)putchar(code);
 
-			/* op1 */
-			if(instr->op1 != NULL) {
-				if(op1_labelled(instr->instruction) == 1) {
-					/* try symbol table */
-					/* try as constant */
-				} else {
-					code = op_to_code(instr->op1);
+			/* op1, op2: depends on the instruction! */
+			
+			/* op1 is a register */
+			if((code <= OUTIC_CODE) && (code >= OUTR_CODE)) {
+				print_reg(instr->op1);
+			} else if (code == LOADI_CODE
+					|| code == STOREI_CODE
+					|| code == ADDR_CODE
+					|| code == SUBR_CODE) {
+				print_two_reg(instr->op1, instr->op2);
+			} else if (code == LOAD_CODE
+					|| code == STORE_CODE
+					|| code == SUB_CODE) {
+				print_reg_and_const(instr->op1, instr->op2);
+			} else {
+				if(instr->op1 != NULL) {
+					print_const(instr->op1);
 				}
-				(void)putchar(code);
-			}
-
-			/* op2 */
-			if(instr->op2 != NULL) {
-				if(op2_tabelled(instr->instruction) == 1) {
-					/* try constant */
-					/* try symbol table */
-				} else {
-					code = op_to_code(instr->op2);
-				}
-				(void)putchar(code);
 			}
 		}
 		instr = instr->next;
@@ -166,4 +170,59 @@ void store_char(int char_in)
 		buffer = realloc(buffer, max);
 	}
 	buffer[char_count - 1] = (char)char_in;
+}
+
+/**
+ * Convert op1, op2 tokens to register opcodes and write to stdout.
+ * No output for constant byte, so 1 byte output.
+ */
+void print_two_reg(char *op1, char *op2)
+{
+	int reg1 = op_to_code(op1);
+	int reg2 = op_to_code(op2)<<6;
+	(void)putchar(reg1 & reg2);
+
+}
+
+/**
+ * Convert op1 token to register opcode,
+ * convert op2 token to constant.  Cross references symbol table.
+ * Write results to stdout.  2 bytes output.
+ */
+void print_reg_and_const(char *op1, char *op2)
+{
+	(void)putchar(op_to_code(op1));
+	int scan;
+	int code;
+	/* Failing scan, look in symbol table */
+	if((scan = sscanf(op2, "%d", &code)) != 1) {
+		code = find_value(op2);
+	}
+	(void)printf("%hd", code);
+}
+
+/**
+ * Convert op1 token to constant and write to stdout.  Cross references symbol
+ * table.
+ * Byte for registers is 0.  2 bytes output.
+ */
+void print_const(char *op1)
+{
+	(void)putchar(0);
+	int scan = 0;
+	int code;
+	/* Failing scan, look in symbol table */
+	if((scan = sscanf(op1, "%d", &code)) != 1) {
+		code = find_value(op1);
+	}
+	(void)putchar(code);
+}
+
+/**
+ * Convert op1 token to register opcode and write to stdout.
+ * No output for constant byte, so 1 byte output.
+ */
+void print_reg(char *op1)
+{
+	(void)putchar(op_to_code(op1));
 }
