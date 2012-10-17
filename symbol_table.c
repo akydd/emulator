@@ -63,3 +63,8 @@ void delete_symbol_table()
 		search_ptr = next_ptr;
 	}
 }
+
+void print_symbol_table()
+{
+	/* TODO */
+}

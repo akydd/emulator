@@ -112,12 +112,20 @@ int main(void)
 			add_symbol(instr->label, address);
 		}
 
+#ifdef DEBUG
+		print_parsed_line(instr);
+		(void)fprintf(stderr, "Start address: %d\n\n", address);
+#endif
 		/* set address start for next instr */
 		address += instr_size(instr->instruction);
 
 		/* get next token */
 		line = strtok(NULL, "\n");
 	}
+
+#ifdef DEBUG
+	print_symbol_table();
+#endif
 
 	/* second pass - translate to binary */
 	instr = parsed_lines;

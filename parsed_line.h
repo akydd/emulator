@@ -32,4 +32,7 @@ void add_parsed_line(struct parsed_line *);
 
 void delete_parsed_lines();
 
+/**
+ * Prints a parsed_line struct to STDERR
+ */
 void print_parsed_line(struct parsed_line *);

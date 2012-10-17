@@ -140,9 +140,9 @@ void delete_parsed_lines()
 
 void print_parsed_line(struct parsed_line *line)
 {
-	(void)printf("Label: %s\n", line->label);
-	(void)printf("Instr: %s\n", line->instruction);
-	(void)printf("Op1: %s\n", line->op1);
-	(void)printf("Op2: %s\n", line->op2);
-	(void)printf("\n");
+	(void)fprintf(stderr, "Label: %s\n", line->label);
+	(void)fprintf(stderr, "Instr: %s\n", line->instruction);
+	(void)fprintf(stderr, "Op1: %s\n", line->op1);
+	(void)fprintf(stderr, "Op2: %s\n", line->op2);
+	(void)fprintf(stderr, "\n");
 }

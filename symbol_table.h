@@ -40,3 +40,8 @@ int find_value(char *);
  * Free the allocated memory associated to the symbol table
  */
 void delete_symbol_table();
+
+/*
+ * Print entire symbol table to stderr
+ */
+void print_symbol_table();
