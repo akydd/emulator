@@ -146,8 +146,13 @@ int main(void)
 					|| code == STORE_CODE
 					|| code == SUB_CODE) {
 				print_reg_and_const(instr->op1, instr->op2);
+			} else if ((code <= JMPO_CODE && code >= JMP_CODE)
+					|| code == OUT_CODE
+					|| code == OUTC_CODE) {
+				(void)putchar(0);
+				print_const(instr->op1);
 			} else {
-				if(instr->op1 != NULL) {
+				if (instr->op1 != NULL) {
 					print_const(instr->op1);
 				}
 			}
