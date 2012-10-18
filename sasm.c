@@ -129,7 +129,7 @@ int main(void)
 
 	/* second pass - translate to binary */
 	instr = parsed_lines;
-	while(instr->next != NULL) {
+	while(instr != NULL) {
 		int code = 0;
 
 		/* data */

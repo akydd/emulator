@@ -16,6 +16,7 @@
  * ============================================================================
  */
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "symbol_table.h"
 
@@ -66,5 +67,10 @@ void delete_symbol_table()
 
 void print_symbol_table()
 {
-	/* TODO */
+	struct entry *search_ptr = symbol_table;
+	while(search_ptr != NULL) {
+		(void)fprintf(stderr, "Key: %s\n", search_ptr->key);
+		(void)fprintf(stderr, "Value: %d\n", search_ptr->value);
+		search_ptr = search_ptr->next;
+	}
 }
