@@ -141,8 +141,6 @@ int main(void)
 			(void)putchar(code);
 
 			/* op1, op2: depends on the instruction! */
-			
-			/* op1 is a register */
 			if((code <= OUTIC_CODE) && (code >= OUTR_CODE)) {
 				print_reg(instr->op1);
 			} else if (code == LOADI_CODE
@@ -206,12 +204,23 @@ void print_reg_and_const(char *op1, char *op2)
 {
 	(void)putchar(op_to_code(op1));
 	int scan;
-	int code;
+	short int code;
 	/* Failing scan, look in symbol table */
-	if((scan = sscanf(op2, "%d", &code)) != 1) {
-		code = find_value(op2);
+	if((scan = sscanf(op2, "%hd", &code)) != 1) {
+		code = (short int)find_value(op2);
+#ifdef DEBUG
+		(void)fprintf(stderr, "Symbol table matched %s to %hd\n",
+				op2, code);
+#endif
 	}
-	(void)printf("%hd", code);
+#ifdef DEBUG
+	else {
+		(void)fprintf(stderr, "Op2 %s converted to %hd\n",
+				op2, code);
+	}
+#endif
+	(void)putchar(code>>8);
+	(void)putchar(code);
 }
 
 /**
@@ -221,13 +230,13 @@ void print_reg_and_const(char *op1, char *op2)
  */
 void print_const(char *op1)
 {
-	(void)putchar(0);
 	int scan = 0;
-	int code;
+	short int code;
 	/* Failing scan, look in symbol table */
-	if((scan = sscanf(op1, "%d", &code)) != 1) {
-		code = find_value(op1);
+	if((scan = sscanf(op1, "%hd", &code)) != 1) {
+		code = (short int)find_value(op1);
 	}
+	(void)putchar(code>>8);
 	(void)putchar(code);
 }
 
