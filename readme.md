@@ -3,75 +3,75 @@
 ## Assembly language Instruction Set
 
 * LOAD reg1,immSRC
-	* load the provided constant value "immSRC" into the specified
+  * load the provided constant value "immSRC" into the specified
 register (data or address)
 
 * LOADI reg1,reg2
-	* load the data contained in the memory
+  * load the data contained in the memory
 address specified in address register reg2 into the specified register (data
 or address)
 * STORE reg1,immDEST
-	* store the data contained in the specified register (data or address)
+  * store the data contained in the specified register (data or address)
 	into the memory address specified by the provided constant value
 	"immDEST"
 * STOREI reg1,reg2
-	* store the data contained in the register reg1 (data or address)
+  * store the data contained in the register reg1 (data or address)
 	into the memory address specified in address register reg2
 * JMP immDEST
-	* jump to constant valued address "immDEST"
+  * jump to constant valued address "immDEST"
 * JMPZ immDEST
-	* jump to constant valued address "immDEST" if Z flag is set (i.e.
+  * jump to constant valued address "immDEST" if Z flag is set (i.e.
 	as result of previous operation)
 * JMPN immDEST
-	* jump to constant valued address "immDEST" if N flag is set (i.e.
+  * jump to constant valued address "immDEST" if N flag is set (i.e.
 	as result of previous operation)
 * JMPO immDEST
-	* jump to constant valued address "immDEST" if O flag is set (i.e. as
+  * jump to constant valued address "immDEST" if O flag is set (i.e. as
 	result of previous operation)
 * ADD reg1,immSRC
-	* add constant value "immSRC" to the value, and store the result, in
+  * add constant value "immSRC" to the value, and store the result, in
 	data register reg1. Z, N and O flags should be set appropriately as
 	the result of the operation
 * ADDR reg1,reg2
-	*add value in data register reg2 to the
+  *add value in data register reg2 to the
             value, and store the result, in data register reg1 (reg2 and reg1
             cannot be the same register). Z, N and O flags should be set
             appropriately as the result of the operation
 * SUB reg1,immSRC
-	* subtract constant value "immSRC" from the value, and store the
+  * subtract constant value "immSRC" from the value, and store the
 	result, in data register reg1. Z, N and O flags should be set
 	appropriately as the result of the operation
 * SUBR reg1,reg2
-	* subtract value in data register
+  * subtract value in data register
             reg2 from the value, and store the result, in data register reg1
             (reg2 and reg1 can not be the same register). Z, N and O flags
             should be set appropriately as the result of the operation
 * OUT immSRC
-	* output constant value "immSRC" to the screen as an
+  * output constant value "immSRC" to the screen as an
 	16-bit signed integer value (i.e. a number).
 * OUTC immSRC
-	* output constant value "immSRC" to the screen
+  * output constant value "immSRC" to the screen
 	as an 8-bit unsigned character value (i.e. an ASCII character).
 * OUTR reg1
-	* output value in data register reg1 as an 16-bit signed
+  * output value in data register reg1 as an 16-bit signed
 	integer value (i.e. a number).
 * OUTRC reg1
-	* output value in data register reg1 as an 8-bit
+  * output value in data register reg1 as an 8-bit
 	unsigned character value (i.e. an ASCII character).
 * OUTI reg1
-	* output value in the memory address referenced by the provided
+  * output value in the memory address referenced by the provided
 	address register reg1 as an 16-bit signed integer value (i.e. a
 	number).
 * OUTIC reg1
-	*output value value in the memory
+  *output value value in the memory
             address referenced by the provided address register reg1 as an 8-
             bit unsigned character value (i.e. an ASCII character).
-* HALT:
-	* The HALT instruction is used to mark the end of program. When your
+* HALT
+  * The HALT instruction is used to mark the end of program. When your
             simulator of the 80d201 processor executes the HALT instruction it
             should exit.
 * DATA immSRC
-	* corresponding memory location will contain the constant
+  * corresponding memory location will contain the constant
             value "immSRC" (this is not really an instruction, and should not
 	be
             converted to an instruction in memory, the intention is to allow
