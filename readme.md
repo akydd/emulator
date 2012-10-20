@@ -81,8 +81,10 @@ or address)
 ## Assembly language file format
 An assembly language files have the following format:
 
+'''
 1      89+
 LABEL   INSTRUCTION OP1[,OP2] # comment (newline)
+'''
 
 Columns 1 to 7 are reserved for "labels",  named memory locations that will be
 resolved by the assembler as it generates the executables to be later loaded
@@ -109,6 +111,7 @@ Each line is terminated by a newline.
 Instructions, except DATA, are encoded as the following single byte opcodes,
 represented in hex.
 
+'''
 HALT 0x31
 LOAD 0x60
 LOADI 0x61
@@ -128,13 +131,16 @@ OUTR 0x6e
 OUTRC 0x6f
 OUTI 0x70
 OUTIC 0x71
+'''
 
 The registers are encoded as 2 bit binary representations of the following
 values:
+'''
 A1 3
 A2 2
 R1 1
 R2 0
+'''
 
 Instructions with an immediate argument occupy 4 bytes, those with only
 register arguments occupy 2 bytes.
