@@ -141,7 +141,10 @@ int main(void)
 			(void)putchar(code);
 
 			/* op1, op2: depends on the instruction! */
-			if((code <= OUTIC_CODE) && (code >= OUTR_CODE)) {
+			if (code == HALT_CODE) {
+				(void)putchar(0);
+			} else if((code <= OUTIC_CODE)
+					&& (code >= OUTR_CODE)) {
 				print_reg(instr->op1);
 			} else if (code == LOADI_CODE
 					|| code == STOREI_CODE
@@ -191,7 +194,7 @@ void print_two_reg(char *op1, char *op2)
 {
 	int reg1 = op_to_code(op1);
 	int reg2 = op_to_code(op2)<<6;
-	(void)putchar(reg1 & reg2);
+	(void)putchar(reg1 | reg2);
 
 }
 
