@@ -1,5 +1,18 @@
 # Simple Emulator
 
+## Processor
+
+It is a 16 bit processor with
+* 2 data registers, R1 and R2
+* two address registers, A1 and A2
+* zero flag Z
+* negative flag N
+* overflow flag O
+* a program counter which holds the memory address of the next instruction to
+be executed
+* 32768 bytes of memory, 1 byte wide
+
+
 ## Assembly language Instruction Set
 
 * LOAD reg1,immSRC
@@ -33,7 +46,7 @@ or address)
 	data register reg1. Z, N and O flags should be set appropriately as
 	the result of the operation
 * ADDR reg1,reg2
-  *add value in data register reg2 to the
+  * add value in data register reg2 to the
             value, and store the result, in data register reg1 (reg2 and reg1
             cannot be the same register). Z, N and O flags should be set
             appropriately as the result of the operation
