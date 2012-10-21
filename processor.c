@@ -16,8 +16,12 @@
  * ============================================================================
  */
 #include <stdlib.h>
-#include "memory.h"
+#include <stdio.h>
 #include "mapping.h"
+
+/* memory module */
+#define MEM_LAST_INDEX 32767
+char memory[MEM_LAST_INDEX];
 
 /* program counter */
 int counter;
@@ -37,17 +41,28 @@ short int A2;
 short int flags = 0;
 
 void process(char);
+void set_flags();
 
 int main(void)
 {
-	char instr;
 	/* read binary from stdin and load into mem */
+	int input;
+	char *mem_ptr = memory;
+	while((input = getchar()) != EOF) {
+		*mem_ptr = (char)input;
+#ifdef DEBUG
+		(void)printf("%c", (char)input);
+#endif
+		mem_ptr++;
+	}
 
-	/* start processing at 0 */
+	/* main processing loop */
 	counter = 0;
-
-	/* processing loop */
-	while((instr = mem_read(counter)) != HALT_CODE) {
+	char instr;
+	while((instr = memory[counter]) != HALT_CODE) {
+#ifdef DEBUG
+		(void)printf("Read code %c\n", instr);
+#endif
 		counter++;
 		process(instr);
 		set_flags();
@@ -64,4 +79,9 @@ void process(char code)
 		default:
 			break;
 	}
+}
+
+void set_flags()
+{
+
 }
