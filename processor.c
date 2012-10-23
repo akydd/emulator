@@ -232,6 +232,122 @@ void addr()
 	counter++;
 }
 
+void sub()
+{
+	counter++;
+
+	char reg_code = memory[counter];
+	short int *reg = get_reg1(reg_code);
+	int reg_val = (int)(*reg);
+
+	counter++;
+	int imm_val = (int)read_imm_value(counter);
+
+	/* 
+	 * check for overflow.  If not, perform operation and set other
+	 * flags
+	 */
+	reg_val -= imm_val;
+	if(reg_val > SHRT_MAX || reg_val < SHRT_MIN) {
+		flags |= O_FLAG;
+	} else {
+		if(reg_val < 0) {
+			flags |= N_FLAG;
+		} else if (reg_val == 0) {
+			flags |= Z_FLAG;
+		}
+		*reg = (short int)reg_val;
+	}
+	counter += 2;
+}
+
+void subr()
+{
+	counter++;
+
+	char reg_code = memory[counter];
+	short int *reg1 = get_reg1(reg_code);
+	short int *reg2 = get_reg2(reg_code);
+
+	int reg1_val = (int)(*reg1);
+	int reg2_val = (int)(*reg2);
+
+	/* check for overflow and other flags */
+	reg1_val -= reg2_val;
+	if(reg1_val > SHRT_MAX || reg1_val < SHRT_MAX) {
+		flags |= O_FLAG;
+	} else {
+		if (reg1_val < 0) {
+			flags |= N_FLAG;
+		} else if (reg1_val == 0) {
+			flags |= Z_FLAG;
+		}
+		*reg1 = (short int)reg1_val;
+	}
+	counter++;
+}
+
+void out()
+{
+	counter += 2;
+
+	short int number = read_imm_value(counter);
+	/* TODO */
+	counter += 2;
+
+}
+
+void outc()
+{
+	counter += 2;
+
+	char character = (char)read_imm_value(counter);
+	/* TODO */
+	counter += 2;
+}
+
+void outr()
+{
+	counter++;
+
+	char code = memory[counter];
+	short int *reg1 = get_reg1(code);
+	/* TODO */
+	counter++;
+}
+
+void outrc()
+{
+	counter++;
+
+	char code = memory[counter];
+	short int  *reg1 = get_reg1(code);
+	/* TODO */
+	counter++;
+}
+
+void outi()
+{
+	counter++;
+
+	char code = memory[counter];
+	short int *reg1 = get_reg1(code);
+	int pos = (int)(*reg1);
+	/* TODO */
+	counter++;
+}
+
+void outic()
+{
+	counter++;
+
+	char code = memory[counter];
+	short int *reg1 = gte_reg1(code);
+	int pos = (int)(*reg1);
+	/* TODO */
+	counter++;
+}
+
 /*
  * Starting at pos, reads two bytes and returns combined values as a short int.
  * Does not move the program counter.
