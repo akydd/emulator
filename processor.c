@@ -342,7 +342,7 @@ void outic()
 	counter++;
 
 	char code = memory[counter];
-	short int *reg1 = gte_reg1(code);
+	short int *reg1 = get_reg1(code);
 	int pos = (int)(*reg1);
 	/* TODO */
 	counter++;
