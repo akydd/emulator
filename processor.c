@@ -46,7 +46,7 @@ short int *get_reg1(char);
 short int *get_reg2(char);
 short int read_imm_value(int);
 void write_imm_value(short int, int);
-void set_flags();
+void clear_flags();
 
 int main(void)
 {
@@ -69,7 +69,6 @@ int main(void)
 		(void)printf("Read code %c\n", instr);
 #endif
 		process(instr);
-		set_flags();
 	}
 
 	exit(0);
@@ -85,9 +84,9 @@ void process(char code)
 	}
 }
 
-void set_flags()
+void clear_flags()
 {
-
+	flags = 0;
 }
 
 void load()
@@ -180,6 +179,7 @@ void jump_o()
 void add()
 {
 	counter++;
+	clear_flags();
 
 	char reg_code = memory[counter];
 	short int *reg = get_reg1(reg_code);
@@ -209,6 +209,7 @@ void add()
 void addr()
 {
 	counter++;
+	clear_flags();
 
 	char reg_code = memory[counter];
 	short int *reg1 = get_reg1(reg_code);
@@ -235,6 +236,7 @@ void addr()
 void sub()
 {
 	counter++;
+	clear_flags();
 
 	char reg_code = memory[counter];
 	short int *reg = get_reg1(reg_code);
@@ -264,6 +266,7 @@ void sub()
 void subr()
 {
 	counter++;
+	clear_flags();
 
 	char reg_code = memory[counter];
 	short int *reg1 = get_reg1(reg_code);
