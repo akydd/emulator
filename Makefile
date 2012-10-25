@@ -30,4 +30,4 @@ parse_test: parse_test.o parsed_line.o
 # utils
 
 clean:
-	rm -f $(OBJS)
+	rm -f *.o

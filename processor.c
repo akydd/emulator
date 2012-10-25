@@ -85,7 +85,9 @@ int main(void)
 	char instr;
 	while((instr = memory[counter]) != HALT_CODE) {
 #ifdef DEBUG
-		(void)printf("Read code %c\n", instr);
+		(void)printf("Read instr %x\n", instr);
+		(void)printf("A1: %d, A2: %d\n", A1, A2);
+		(void)printf("R1: %d, R2: %d\n", R1, R2);
 #endif
 		process(instr);
 	}
@@ -135,7 +137,9 @@ void loadi()
 	char reg_code = memory[counter];
 	short int *reg1 = get_reg1(reg_code);
 	short int *reg2 = get_reg2(reg_code);
-	*reg1 = *reg2;
+	*reg1 = memory[*reg2];
+	*reg1 = (*reg1)<<8;
+	*reg1 |= memory[(*reg2) + 1];
 	counter++;
 }
 
@@ -246,16 +250,20 @@ void addr()
 	int reg2_val = (int)(*reg2);
 
 	/* check for overflow and other flags */
-	reg1_val += reg2_val;
-	if(reg1_val > SHRT_MAX || reg1_val < SHRT_MAX) {
+	int sum = reg1_val + reg2_val;
+
+#ifdef DEBUG
+	(void)printf("Added %d and %d to get %d\n", reg1_val, reg2_val, sum);
+#endif
+	if(sum > SHRT_MAX || sum < SHRT_MIN) {
 		flags |= O_FLAG;
 	} else {
-		if (reg1_val < 0) {
+		if (sum < 0) {
 			flags |= N_FLAG;
-		} else if (reg1_val == 0) {
+		} else if (sum == 0) {
 			flags |= Z_FLAG;
 		}
-		*reg1 = (short int)reg1_val;
+		*reg1 = (short int)sum;
 	}
 	counter++;
 }
@@ -391,6 +399,9 @@ short int read_imm_value(int pos)
 	short int src = memory[pos];
 	src = src<<8;
 	src |= memory[pos + 1];
+#ifdef DEBUG
+	(void)printf("Read %d from %d\n", src, pos);
+#endif
 	return src;
 }
 
@@ -405,6 +416,9 @@ void write_imm_value(short int value, int pos)
 	char byte2 = (char)value;
 	memory[pos] = byte1;
 	memory[pos + 1] = byte2;
+#ifdef DEBUG
+	(void)printf("Stored value %d at %d\n", value, pos);
+#endif
 }
 
 /*
