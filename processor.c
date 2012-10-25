@@ -47,6 +47,25 @@ short int *get_reg2(char);
 short int read_imm_value(int);
 void write_imm_value(short int, int);
 void clear_flags();
+void load();
+void loadi();
+void store();
+void storei();
+void jmp();
+void jmpz();
+void jmpn();
+void jmpo();
+void add();
+void addr();
+void sub();
+void subr();
+void out();
+void outc();
+void outr();
+void outrc();
+void outi();
+void outic();
+
 
 int main(void)
 {
@@ -76,11 +95,19 @@ int main(void)
 
 void process(char code)
 {
-	switch(code) {
-		case LOAD_CODE:
-			break;
-		default:
-			break;
+	static void (* const pf[]) (void) = { 
+		&load, &loadi,
+		&store, &storei,
+		&jmp, &jmpz, &jmpn, &jmpo,
+		&add, &addr,
+		&sub, &subr,
+		&out, &outc, &outr, &outrc, &outi, &outic
+       	};
+
+	int code_index = code - LOAD_CODE;
+	if (code_index < sizeof(pf) / sizeof(*pf) &&
+			code_index >= 0) {
+		pf[code_index]();
 	}
 }
 
@@ -136,14 +163,14 @@ void storei()
 	counter++;
 }
 
-void jump()
+void jmp()
 {
 	counter += 2;
 	int pos = (int)read_imm_value(counter);
 	counter = pos;
 }
 
-void jump_z()
+void jmpz()
 {
 	if((flags & Z_FLAG) == Z_FLAG) {
 		counter += 2;
@@ -154,7 +181,7 @@ void jump_z()
 	}
 }
 
-void jump_n()
+void jmpn()
 {
 	if((flags & N_FLAG) == N_FLAG) {
 		counter += 2;
@@ -165,7 +192,7 @@ void jump_n()
 	}
 }
 
-void jump_o()
+void jmpo()
 {
 	if((flags & O_FLAG) == O_FLAG) {
 		counter += 2;
@@ -295,7 +322,8 @@ void out()
 	counter += 2;
 
 	short int number = read_imm_value(counter);
-	/* TODO */
+	/* use %d to convert int to ASCII before output */
+	(void)printf("%d", number);
 	counter += 2;
 
 }
@@ -304,8 +332,9 @@ void outc()
 {
 	counter += 2;
 
-	char character = (char)read_imm_value(counter);
-	/* TODO */
+	short int character = read_imm_value(counter);
+	/* use %c to treat value as ASCII char, no conversion */
+	(void)printf("%c", character);
 	counter += 2;
 }
 
@@ -315,7 +344,7 @@ void outr()
 
 	char code = memory[counter];
 	short int *reg1 = get_reg1(code);
-	/* TODO */
+	(void)printf("%d", *reg1);
 	counter++;
 }
 
@@ -325,7 +354,7 @@ void outrc()
 
 	char code = memory[counter];
 	short int  *reg1 = get_reg1(code);
-	/* TODO */
+	(void)printf("%c", *reg1);
 	counter++;
 }
 
@@ -336,7 +365,8 @@ void outi()
 	char code = memory[counter];
 	short int *reg1 = get_reg1(code);
 	int pos = (int)(*reg1);
-	/* TODO */
+	short int number = read_imm_value(pos);
+	(void)printf("%d", number);
 	counter++;
 }
 
@@ -347,7 +377,8 @@ void outic()
 	char code = memory[counter];
 	short int *reg1 = get_reg1(code);
 	int pos = (int)(*reg1);
-	/* TODO */
+	short int character = read_imm_value(pos);
+	(void)printf("%c", character);
 	counter++;
 }
 
