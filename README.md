@@ -2,7 +2,7 @@
 
 ## Processor
 
-It is a 16 bit processor with
+This "emulates" a fictional 16-bit processor with
 * 2 data registers, R1 and R2
 * two address registers, A1 and A2
 * zero flag Z
@@ -15,6 +15,9 @@ be executed
 The processor only performs arithmetic operations on values in the data
 registers, while address registers are used to hold
 addresses so that data value can be reference indirectly.
+
+There is also a compiler that translates a fictional assembly language into byte
+code. test.asm is sample assembly language file.
 
 ### Cycles
 
@@ -178,5 +181,4 @@ second byte are not used.
 
 For instructions with immediate operands, two bytes following the
 encoded register, which may be 0x00, are used to hold the 2 byte data or 
-address value used by the
-instructions.
+address value used by the instructions.
