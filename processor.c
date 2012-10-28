@@ -104,7 +104,7 @@ void process(char code)
 		&add, &addr,
 		&sub, &subr,
 		&out, &outc, &outr, &outrc, &outi, &outic
-       	};
+	};
 
 	int code_index = code - LOAD_CODE;
 	if (code_index < sizeof(pf) / sizeof(*pf) &&
@@ -220,20 +220,21 @@ void add()
 	int imm_val = (int)read_imm_value(counter);
 
 	/* 
-	 * check for overflow.  If not, perform operation and set other
-	 * flags
+	 * check flags
 	 */
 	reg_val += imm_val;
 	if(reg_val > SHRT_MAX || reg_val < SHRT_MIN) {
 		flags |= O_FLAG;
-	} else {
-		if(reg_val < 0) {
-			flags |= N_FLAG;
-		} else if (reg_val == 0) {
-			flags |= Z_FLAG;
-		}
-		*reg = (short int)reg_val;
 	}
+	if(reg_val < 0) {
+		flags |= N_FLAG;
+	} else if (reg_val == 0) {
+		flags |= Z_FLAG;
+	}
+
+	/* update reg */
+	*reg = (short int)reg_val;
+
 	counter += 2;
 }
 
@@ -257,14 +258,16 @@ void addr()
 #endif
 	if(sum > SHRT_MAX || sum < SHRT_MIN) {
 		flags |= O_FLAG;
-	} else {
-		if (sum < 0) {
-			flags |= N_FLAG;
-		} else if (sum == 0) {
-			flags |= Z_FLAG;
-		}
-		*reg1 = (short int)sum;
 	}
+	if (sum < 0) {
+		flags |= N_FLAG;
+	} else if (sum == 0) {
+		flags |= Z_FLAG;
+	}
+
+	/* update reg */
+	*reg1 = (short int)sum;
+
 	counter++;
 }
 
@@ -281,20 +284,21 @@ void sub()
 	int imm_val = (int)read_imm_value(counter);
 
 	/* 
-	 * check for overflow.  If not, perform operation and set other
-	 * flags
+	 * check flags
 	 */
 	reg_val -= imm_val;
 	if(reg_val > SHRT_MAX || reg_val < SHRT_MIN) {
 		flags |= O_FLAG;
-	} else {
-		if(reg_val < 0) {
-			flags |= N_FLAG;
-		} else if (reg_val == 0) {
-			flags |= Z_FLAG;
-		}
-		*reg = (short int)reg_val;
 	}
+	if(reg_val < 0) {
+		flags |= N_FLAG;
+	} else if (reg_val == 0) {
+		flags |= Z_FLAG;
+	}
+
+	/* update reg */
+	*reg = (short int)reg_val;
+
 	counter += 2;
 }
 
@@ -310,18 +314,20 @@ void subr()
 	int reg1_val = (int)(*reg1);
 	int reg2_val = (int)(*reg2);
 
-	/* check for overflow and other flags */
+	/* check flags */
 	reg1_val -= reg2_val;
 	if(reg1_val > SHRT_MAX || reg1_val < SHRT_MAX) {
 		flags |= O_FLAG;
-	} else {
-		if (reg1_val < 0) {
-			flags |= N_FLAG;
-		} else if (reg1_val == 0) {
-			flags |= Z_FLAG;
-		}
-		*reg1 = (short int)reg1_val;
 	}
+	if (reg1_val < 0) {
+		flags |= N_FLAG;
+	} else if (reg1_val == 0) {
+		flags |= Z_FLAG;
+	}
+
+	/* update flags */
+	*reg1 = (short int)reg1_val;
+
 	counter++;
 }
 
